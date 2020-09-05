@@ -1,0 +1,129 @@
+#:import utils kivy.utils
+
+<RootWidget>:
+    Screen:
+        name: 'menu'
+        BoxLayout:
+            orientation: 'vertical'
+            canvas:
+                Color:
+                    rgb: utils.get_color_from_hex('#283618')
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Widget:
+                size_hint_y: 0.4
+            BoxLayout:
+                padding: 50
+                spacing: 10
+                orientation: 'vertical'
+                ChonkyButton:
+                    text: 'EQ'
+                    on_release: root.eq.setup()
+                ChonkyButton:
+                    text: 'Low End EQ'
+                    on_release: root.low_eq.setup()
+                ChonkyButton:
+                    text: 'Compression'
+                    on_release: root.comp.setup()
+                ChonkyButton:
+                    text: 'Reverb'
+                    on_release: root.reverb.setup()
+                ChonkyButton:
+                    text: 'Credits'
+                    on_release: root.show_popup('credits')
+            Widget:
+                size_hint_y: 0.4
+
+    ##EQ quiz screen
+    Screen:
+        name: 'eq_quiz'
+        ##Root Layout
+        BoxLayout:
+            orientation: 'vertical'
+            canvas:
+                Color:
+                    rgb: utils.get_color_from_hex('#283618')
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            StatusBar:
+                ##Status Bar
+                orientation: 'horizontal'
+                size_hint_y: 0.06
+                canvas.before:
+                    Color:
+                        rgb: utils.get_color_from_hex('#181d27')
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                Label:
+                    id: gain_label
+                Label:
+                    id: band_label
+                Label:
+                    id: quiz_label
+                Label:
+                    id: score_label
+
+
+            ##AnswerButtons
+            BoxLayout:
+                orientation: 'vertical'
+                BoxLayout:
+                    orientation: 'horizontal'
+                    ChonkyButton:
+                        id: ans_btn_1
+                        on_release: root.eq.check_ans(self.text)
+                    ChonkyButton:
+                        id: ans_btn_2
+                        on_release: root.eq.check_ans(self.text)
+                BoxLayout:
+                    orientation: 'horizontal'
+                    ChonkyButton:
+                        id: ans_btn_3
+                        on_release: root.eq.check_ans(self.text)
+                    ChonkyButton:
+                        id: ans_btn_4
+                        on_release: root.eq.check_ans(self.text)
+                    
+            BoxLayout:
+                ##Switcher Panel
+                size_hint_y: 0.15
+                orientation: 'horizontal'
+                SwitchButton:
+                    id: raw_audio_btn
+                    text: 'Raw Audio'
+                    on_release: root.eq.raw_audio()
+                SwitchButton:
+                    id: fx_audio_btn
+                    text: 'Effected Audio'
+                    on_release: root.eq.fx_audio()
+            BoxLayout:
+                ##Control Panel
+                orientation: 'horizontal'
+                size_hint_y: 0.15
+
+                ImageButton:
+                    id: next_btn
+                    source: 'icons/none.png'
+
+                ImageButton:
+                    id: pause_btn
+                    source: 'icons/resume.png'
+                    on_release: root.eq.pause()
+                    
+                ImageButton:
+                    id: chances_left_btn
+                    source: 'icons/chances_left_3.png'
+    Screen:
+        name: 'eq_finish'
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: 'You have finished!'
+            Button:
+                text: 'Go home'
+                size_hint_y: 0.2
+                on_release: root.current = 'menu'
